@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+import os
+import json
 # from rq import Queue
 # from worker import conn
 
 # from redis import Redis
 # from rq.job import Job
-import os
-import json
 
 # imports are special for redis conenctions
 # import redis
@@ -29,11 +29,32 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# holds tweet, prediction
+class Prices(db.Model):
+    __tablename__ = 'Prices'
+    id = db.Column(db.Integer, primary_key=True)
+    Text = db.Column(db.String(1000))
+
+    def __init__(self, Text):
+        self.Text = Text
+
 # loads home page
 @app.route("/", methods=["POST", "GET"])
 def index():
 
     return render_template("index.html")
+
+
+@app.route("/test", methods=["POST"])
+def test():
+
+    text = request.form['text']
+    print(text)
+    data = Prices(text)
+    db.session.add(data)
+    db.session.commit()
+
+    return ('', 204)
 
 if __name__ == '__main__':
     app.debug = True

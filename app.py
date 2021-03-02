@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
-from rq import Queue
-from worker import conn
+# from rq import Queue
+# from worker import conn
 
 # from redis import Redis
 # from rq.job import Job
@@ -36,5 +36,6 @@ def index():
     return render_template("index.html")
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()
 

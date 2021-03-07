@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
-import os
 import json
+import ebayScraper as es
 # from rq import Queue
 # from worker import conn
 
@@ -55,6 +55,11 @@ def test():
     db.session.commit()
 
     return ('', 204)
+
+@app.route("/startScrape", methods=["POST"])
+def startScrape():
+
+
 
 if __name__ == '__main__':
     app.debug = True
